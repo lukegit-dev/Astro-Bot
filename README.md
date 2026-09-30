@@ -49,8 +49,8 @@ detail** |
 |---------|---------|
 | API Provider (Choose one) | **OpenWeather, OpenWeatherMap (or other – provide
 details)** |
-| API Base URL | `_______________________________` |
-| Endpoint for current weather | `_______________________________` |
+| API Base URL | `https://api.openweathermap.org/data/4.0/onecall/current?lat={number}&lon={number}&units=metric&lang=en&appid={API key}` |
+| Endpoint for current weather | `https://api.openweathermap.org/data/4.0/onecall/current?lat={number}&lon={number}&units=metric&lang=en&appid={API key}` |
 | Authentication method | `_______________________________` |
 | Required query parameters | `_______________________________` |
 | Sample JSON response (formatted example) |
@@ -127,7 +127,11 @@ Reflect on your AstroBot (400 words):
 - How could your solution be improved in the future?
 ---
 **Tip:** Link your answers directly to your code and examples for higher marks.
-### Notes
+### References
+- developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
+- openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
+- Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
+w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
 - Use official documentation for accuracy (e.g. developer.webex.com, locationiq.com
 or Mapbox, open-notify.org or other ISS API).
 - Be prepared to explain your findings to your instructor or demo how you retrieved
