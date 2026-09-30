@@ -31,9 +31,25 @@ def get_api_key(hardcoded_key):
 # =========================
 # WEBEX FUNCTIONS
 # =========================
+
 def get_rooms(token):
+    """
+    Example of a room element of what would be returned from fetching rooms
+    {
+        'id': 'XXXX',
+        'title': 'Example Room', 
+        'type': 'direct',
+        'lastActivity': '2026-09-16T09:31:45.085Z',
+        'creatorId': 'XXXX',
+        'created': '2026-09-16T09:31:45.085Z',
+        'ownerId': 'XXXX',
+        'isPublic': False,
+        'isReadOnly': False,
+        'isLocked': False
+    }
+    """
     url = BASE_WEBEX_URL+"rooms"  # URL to fetch rooms from Webex API
-    headers = {"Authorization": token}  #complete the headers dictionary to include the Authorization header with the token
+    headers = {'Authorization': token}  #complete the headers dictionary to include the Authorization header with the token
     response = requests.get(url, headers=headers)  #complete the request to get rooms using requests.get with the url and headers
 
     if response.status_code != 200:  #complete the condition to check if the response status code is not 200:
@@ -42,16 +58,15 @@ def get_rooms(token):
 
     return response.json().get("items", [])  # Attempts to get "items" from JSON response. Returns empty list if not found.
 
-
 def print_rooms(rooms):
     print(rooms)
     for room in rooms:
-        print(f"Room Name: {room}")
+        print(f"Room Name: {room['title']} | ID: {room['id']}")
 
 def get_latest_message(token, room_id):
-    url = BASE_WEBEX_URL+"messages"  #complete the URL to fetch messages from Webex API
-    params = {"roomId": room_id, "max": "20"}
-    headers = {"Authorization": token}  #complete the headers dictionary to include the Authorization header with the token
+    url = BASE_WEBEX_URL+"messages"  #  https://webexapis.com/v1/messages
+    params = {'roomId': room_id, 'max': '20'}  # Use 'roomId' and 'max' parameter to fetch the room and limit the number of messages returned to 20
+    headers = {'Authorization': token}  # Use auth token in headers with our request
 
     response = requests.get(url, headers=headers, params=params)
 
@@ -67,18 +82,27 @@ def get_latest_message(token, room_id):
     latest = data[0]
     return latest.get("id"), latest.get("text", "")
 
+def send_message(token, room_id, message):
+    url = BASE_WEBEX_URL+"messages"
+    headers = {'Authorization': token, 'Content-Type': 'application/json'} #complete the headers dictionary to include the Authorization header with the token and Content-Type as application/json
+    data = {
+        "roomId": room_id,
+        "text": message
+    }
+    requests.post(url, headers=headers, data=json.dumps(data))
+
+
 
 # =========================
 # MAIN BOT LOGIC
 # =========================
+
 def main():
     print("Running AstroBot")
-    rooms = get_rooms(get_api_key(get_webex_token()))
+    token = get_api_key(get_webex_token())
+    rooms = get_rooms(token)
+    send_message(token, rooms[0]['id'], "This is a test.")
     print_rooms(rooms)
 
-if __name__ == "__main__":  # 
+if __name__ == "__main__":
     print(main())
-
-# =========================
-# WEBEX FUNCTIONS
-# =========================
