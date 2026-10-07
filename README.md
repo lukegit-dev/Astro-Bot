@@ -16,7 +16,7 @@ pattern in development of the Bot
 | Endpoint to get messages | `https://webexapis.com/v1/messages` |
 | Endpoint to send message | `https://webexapis.com/v1/messages` |
 | Required headers | `Authorization: Bearer <token>` |
-| Sample full GET or POST request | `_______________________________` |
+| Sample full GET or POST request | `GET https://webexapis.com/v1/rooms` |
 ---
 ## ISS Current Location API (2 marks)
 | Criteria | Details |
@@ -39,8 +39,7 @@ pattern in development of the Bot
 ## Geocoding API (4 marks)
 | Criteria | Details |
 |---------|---------|
-| Provider used (Choose one) | **LocationIQ / Mapbox/ OpenWeatherMap other -provide
-detail** |
+| Provider used (Choose one) | **LocationIQ / Mapbox/ OpenWeatherMap other - provide detail** |
 | API Base URL | `http://api.openweathermap.org/geo/1.0/direct` |
 | Endpoint for geocoding | `http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}` |
 | Endpoint for reverse geocoding | `http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}` |
@@ -48,8 +47,57 @@ detail** |
 | Required query parameters | `lat`, `lon`, `limit`, `appid`, `q` |
 | Sample request with latitude/longitude | `51.5` |
 | Sample JSON response (formatted example) |
+### Forward Geocoding Example
+```json
+[
+    {
+        "name": "London",
+        "local_names": {
+            "br": "Londrez",
+            "to": "Lonitoni",
+            "vi": "Luân Đôn",
+            "kk": "Лондон",
+            "ab": "Лондан",
+            "or": "ଲଣ୍ଡନ",
+            "ca": "Londres",
+            "ja": "ロンドン",
+            "pl": "Londyn",
+            "km": "ឡុងដ៍",
+            "ht": "Lonn",
+            "om": "Landan",
+            ...  // There was much more but I truncated it here 
+        },
+        "lat": 51.5074456,
+        "lon": -0.1277653,
+        "country": "GB",
+        "state": "England"
+    }
+]
 ```
-
+### Reverse Geocoding Example
+```json
+[
+    {
+        "name": "City of Westminster",
+        "local_names": {
+            "be": "Вэстмінстэр",
+            "he": "וסטמינסטר",
+            "bn": "সিটি অফ ওয়েস্টমিনস্টার",
+            "hi": "सिटी ऑफ वेस्टमिंस्टर",
+            "fr": "Cité de Westminster",
+            "ru": "Вестминстер",
+            "cy": "San Steffan",
+            "en": "City of Westminster",
+            "sr": "Вестминстер",
+            "ko": "시티오브웨스트민스터",
+            "mk": "Град Вестминстер"
+        },
+        "lat": 51.4973206,
+        "lon": -0.137149,
+        "country": "GB",
+        "state": "England"
+    }
+]
 ```
 |
 ---
