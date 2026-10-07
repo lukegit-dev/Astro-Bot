@@ -21,10 +21,18 @@ pattern in development of the Bot
 ## ISS Current Location API (2 marks)
 | Criteria | Details |
 |---------|---------|
-| API Base URL | `_______________________________` |
-| Endpoint for current ISS location | `_______________________________` |
+| API Base URL | `http://api.open-notify.org` |
+| Endpoint for current ISS location | `http://api.open-notify.org/iss-now.json` |
 | Sample response format (example JSON) |
-```
+```json
+{
+  "message": "success",
+  "timestamp": 1791361847,
+  "iss_position": {
+    "longitude": "36.3186",
+    "latitude": "50.8223"
+  }
+}
 ```
 |
 ---
@@ -41,6 +49,7 @@ detail** |
 | Sample request with latitude/longitude | `51.5` |
 | Sample JSON response (formatted example) |
 ```
+
 ```
 |
 ---
@@ -175,6 +184,7 @@ Reflect on your AstroBot (400 words):
 **Tip:** Link your answers directly to your code and examples for higher marks.
 ### References
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
+- Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
 w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
@@ -182,5 +192,6 @@ w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3scho
 or Mapbox, open-notify.org or other ISS API).
 - Be prepared to explain your findings to your instructor or demo how you retrieved
 them using tools like Postman, Curl, or Python scripts.
+
 ---
 ### Total: /40
