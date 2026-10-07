@@ -110,17 +110,39 @@ def get_city_coordinates(city, api_key):
         return None
 
     data = response.json()
+
     return data[0] if data else None
 
 
 def get_weather(city, api_key):
     location = get_city_coordinates(city, api_key)
 
-    return location
+    if not location:
+        print("No location found!")
+        return {}  # complete the return statement to indicate that the city was not found
 
-    #return (
-        #complete the return statement to format and return the weather information such as including city name, country, temperature, weather description, humidity, and wind speed
-    #)
+    params = {'lat': location['lat'], 'lon': location['lon'], 'units': 'metric', 'appid': api_key}  # latitude, longitude, units as metric, and the API key
+
+    response = requests.get(BASE_OPENWEATHERMAP_URL, params=params)
+
+    print(response)
+
+    if response.status_code != 200:  # The response was unsuccessful
+        print("No weather info found, status code error:", response.status_code)
+        return {}  # You can use get_weather(city, api_key).get(...), if it returns None, the response was not successful
+
+    weather = response.json()
+
+    # Return the weather information including city name, country, temperature, weather description, humidity, and wind speed
+    
+    return {
+        'city': weather['name'],
+        'country': weather['sys']['country'],
+        'temperature': weather['main']['temp'],
+        'description': weather['weather'][0]['description'],
+        'humidity': weather['main']['humidity'],
+        'wind_speed': weather['wind']['speed']
+    }
 
 # =========================
 # MAIN BOT LOGIC
@@ -128,10 +150,11 @@ def get_weather(city, api_key):
 
 def main():
     print("Running AstroBot")
-    # token = get_api_key(get_webex_token())
-    # rooms = get_rooms(token)
-    # send_message(token, rooms[0]['id'], "This is a test.")
-    print("weather is:", get_weather("London", WEATHER_TOKEN))
+    #token = get_api_key(get_webex_token())
+    #rooms = get_rooms(token)
+    #print_rooms(rooms)
+
+    print(get_weather("London", WEATHER_TOKEN))
 
 if __name__ == "__main__":
     print(main())
