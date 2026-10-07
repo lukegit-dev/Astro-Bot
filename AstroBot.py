@@ -7,12 +7,19 @@ import time
 # CONFIGURATION FUNCTIONS
 # =========================
 
-BASE_WEBEX_URL = "https://webexapis.com/v1/"  # Base Webex URL
+BASE_WEBEX_URL = "https://webexapis.com/v1/"
+BASE_ISS_URL = "http://api.open-notify.org"
+BASE_OPENWEATHERMAP_URL = "http://api.openweathermap.org/data/2.5/weather"
+BASE_GEOCODING_URL = "http://api.openweathermap.org/geo/1.0/direct"
+
+# These tokens will be reset and removed in the final public release version.
+# If you found this previous version and tried to use it, nice try, it won't work.
+WEBEX_TOKEN = "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
+WEATHER_TOKEN = "1f97fe4a84b771c9268dce4e8a3f3ab2"  # OpenWeatherMap API Key
 
 def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded one
-    # Yes, this main token will be removed in the final version.
-    # If you found this previous version and tried to use it, nice try, it won't work.
-    return "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
+    
+    return WEBEX_TOKEN  # This line will be omitted in public version
     choice = input("Use hard-coded Webex token? (y/n): ").lower()
     if choice == "n":
         token = input("Enter your Webex Access Token: ")
@@ -91,7 +98,29 @@ def send_message(token, room_id, message):
     }
     requests.post(url, headers=headers, data=json.dumps(data))
 
+# =========================
+# WEATHER FUNCTIONS
+# =========================
 
+def get_city_coordinates(city, api_key):
+    params = {'q': city, 'limit': 1, 'appid': api_key}  # city name, limit, and the API key in params
+    response = requests.get(BASE_GEOCODING_URL, params=params)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json()
+    return data[0] if data else None
+
+
+def get_weather(city, api_key):
+    location = get_city_coordinates(city, api_key)
+
+    return location
+
+    #return (
+        #complete the return statement to format and return the weather information such as including city name, country, temperature, weather description, humidity, and wind speed
+    #)
 
 # =========================
 # MAIN BOT LOGIC
@@ -99,10 +128,10 @@ def send_message(token, room_id, message):
 
 def main():
     print("Running AstroBot")
-    token = get_api_key(get_webex_token())
-    rooms = get_rooms(token)
-    send_message(token, rooms[0]['id'], "This is a test.")
-    print_rooms(rooms)
+    # token = get_api_key(get_webex_token())
+    # rooms = get_rooms(token)
+    # send_message(token, rooms[0]['id'], "This is a test.")
+    print("weather is:", get_weather("London", WEATHER_TOKEN))
 
 if __name__ == "__main__":
     print(main())
