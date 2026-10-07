@@ -33,12 +33,12 @@ pattern in development of the Bot
 |---------|---------|
 | Provider used (Choose one) | **LocationIQ / Mapbox/ OpenWeatherMap other -provide
 detail** |
-| API Base URL | `_______________________________` |
-| Endpoint for geocoding | `_______________________________` |
-| Endpoint for reverse geocoding | `_______________________________` |
-| Authentication method | `_______________________________` |
-| Required query parameters | `_______________________________` |
-| Sample request with latitude/longitude | `_______________________________` |
+| API Base URL | `http://api.openweathermap.org/geo/1.0/direct` |
+| Endpoint for geocoding | `http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}` |
+| Endpoint for reverse geocoding | `http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}` |
+| Authentication method | `appid={API key}` |
+| Required query parameters | `lat`, `lon`, `limit`, `appid`, `q` |
+| Sample request with latitude/longitude | `51.5` |
 | Sample JSON response (formatted example) |
 ```
 ```
@@ -49,12 +49,58 @@ detail** |
 |---------|---------|
 | API Provider (Choose one) | **OpenWeather, OpenWeatherMap (or other – provide
 details)** |
-| API Base URL | `https://api.openweathermap.org/data/4.0/onecall/current?lat={number}&lon={number}&units=metric&lang=en&appid={API key}` |
-| Endpoint for current weather | `https://api.openweathermap.org/data/4.0/onecall/current?lat={number}&lon={number}&units=metric&lang=en&appid={API key}` |
-| Authentication method | `_______________________________` |
-| Required query parameters | `_______________________________` |
-| Sample JSON response (formatted example) |
-```
+| API Base URLs | `https://api.openweathermap.org/data/2.5/weather` |
+| Endpoint for current weather | `https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API Key}` |
+| Authentication method | `appId={API key}` |
+| Required query parameters | `lat`, `lon`, `appId` |
+| Example JSON response from https://api.openweathermap.org/data/2.5/weather?q=London |
+```json
+{
+  "coord": {
+    "lon": -0.1257,
+    "lat": 51.5085
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 21.09,
+    "feels_like": 21.42,
+    "temp_min": 20.27,
+    "temp_max": 22.25,
+    "pressure": 1012,
+    "humidity": 83,
+    "sea_level": 1012,
+    "grnd_level": 1009
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 6.7,
+    "deg": 202,
+    "gust": 9.2
+  },
+  "clouds": {
+    "all": 70
+  },
+  "dt": 1790764617,
+  "sys": {
+    "type": 2,
+    "id": 2075535,
+    "country": "GB",
+    "sunrise": 1790747944,
+    "sunset": 1790790114
+  },
+  "timezone": 3600,
+  "id": 2643743,
+  "name": "London",
+  "cod": 200
+}
 ```
 |
 ---
