@@ -176,8 +176,9 @@ pattern in development of the Bot
 | Authentication method | `X-Api-Key: API_KEY` |
 | Required query parameters | `name` |
 ### Sample JSON response (formatted example)
-```jsonl
-[{
+```json
+[
+  {
     'name': 'Mars',
     'mass': 0.000338,
     'radius': 0.0488,
@@ -187,7 +188,8 @@ pattern in development of the Bot
     'distance_light_year': 3.7e-05,
     'host_star_mass': 1.0,
     'host_star_temperature': 6000.
-}]
+  }
+]
 ```
 
 ## Evaluation – Web Architecture, MVC Design & Security
@@ -228,20 +230,28 @@ Provide a short example based on your implementation
 ---
 ### 🚀 Reflection and Evaluation ( 8 marks )
 Reflect on your AstroBot (400 words):
+
 AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running a simple command to get this information quickly. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and distance from the sun in light years. This is useful for astronomy discussions, which helps members learn more about different planets.
 
 One design that worked well was to use slash commands. Starting with a `/`, it becomes easy to understand what a command looks like, and is user friendly to both new and experienced members of the club. `/help` provides a list of all commands available, showing a simplistic way to use them. Not only can this be helpful for new users showing them how to use commands, but also for experienced users to display any new commands that could be added in the future.
 
-- ~~How effective is your bot in meeting the Astronomy Club’s needs?~~  
-- ~~What design decisions worked well?~~
-- What challenges did you face when integrating APIs?
-- What security risks did you identify and how were they handled?
-- How could your solution be improved in the future?
+When intergrating APIs, I found that formatting received JSON responses was challenging, as there was lots of data format, which needed multiple validation tests to verify it was correct. Converting planet data mass in relation to Earth mass was difficult, but using official NASA web pages I was able to use the conversion value.
+
+API access tokens in my source code is a clear security risk. To keep myself safe from my API keys being stolen, I have removed them from the code, especially for the public release, and stored in a `.env` file. Users can also input their API tokens manually if they wish not to store them. Sensitive information such as API keys are never printed or logged.
+
+For future improvements:
+- Predict where the ISS will be given a date and time
+- Predicted weather forecast for a location, date, and time
+
+This allows the Astronomy club to plan further in advance when observing the ISS, or looking for a clear day/night to observe stars or planets. It would also help the club decide which days to perform these observations. If a day/night is known to be rainy or have thunder, they can reschedule their event and avoid unnecessary trips.
+
+Another future idea is to include notifications of upcoming events such meteor showers or ISS fly-overs, so they would not need to run a command to check, but be sent a message/email.
 ---
 **Tip:** Link your answers directly to your code and examples for higher marks.
 ### References
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
+- NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
