@@ -12,6 +12,7 @@ BASE_OPENWEATHERMAP_URL = "http://api.openweathermap.org/data/2.5/weather"
 BASE_GEOCODING_URL = "http://api.openweathermap.org/geo/1.0/direct"
 BASE_REVERSE_GEOCODING_URL = "https://api.openweathermap.org/geo/1.0/reverse"
 BASE_ISS_URL = "http://api.open-notify.org/iss-now.json"
+BASE_PLANETS_URL = "https://api.api-ninjas.com/v1/planets"
 
 BOT_EMAIL = "Astraa@webex.bot"
 
@@ -19,6 +20,7 @@ BOT_EMAIL = "Astraa@webex.bot"
 # If you found this previous version and tried to use it, nice try, it won't work.
 WEBEX_TOKEN = "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
 WEATHER_TOKEN = "1f97fe4a84b771c9268dce4e8a3f3ab2"  # OpenWeatherMap API Key
+PLANETS_TOKEN = "OP0Zlevbwtr0wYRbfqf4TDzoVOdOYpjMkdpNg48T"
 
 def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded one
     
@@ -157,6 +159,19 @@ def get_weather(city, api_key):
         'wind_speed': weather['wind']['speed']
     }
 
+def get_planet_information(planet_name, api_key):
+    
+    response = requests.get(
+        BASE_PLANETS_URL,
+        headers={'X-Api-Key': api_key},
+        params={'name': planet_name}
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print("Error with fetching planet information:", response.status_code, response.text)
+        return "Error fetching planet information"
+
 # =========================
 # ISS FUNCTIONS
 # =========================
@@ -181,8 +196,6 @@ def get_iss_location(api_key):
 
     data = response.json()
 
-    print(data)
-
     lat = data['iss_position']['latitude']
     lon = data['iss_position']['longitude']
 
@@ -192,8 +205,6 @@ def get_iss_location(api_key):
 
     if location:
         place = location.get('name', place) + ", " + location.get('country', '')
-
-    print(place)
 
     # Return ISS location information including latitude, longitude, and place name
 
@@ -215,8 +226,10 @@ def main():
     #print(get_iss_location(WEATHER_TOKEN))
 
     token = get_webex_token()
-
+    print("Weather:", end=" ")
     weather_key = get_api_key(WEATHER_TOKEN)
+    print("Planets:", end=" ")
+    planet_key = get_api_key(PLANETS_TOKEN)
 
     rooms = get_rooms(token)
 
@@ -248,7 +261,7 @@ def main():
                 send_message(
                     token,
                     room_id,
-                    "/weather <city>\n/iss\n/help\n/quit"
+                    "/weather <city>\n/planet <name>\n/iss\n/help\n/quit"
                 )
 
             elif message_text.lower().startswith("/weather"):
@@ -262,10 +275,10 @@ def main():
                     weather_today = get_weather(city, weather_key)
 
                     formatted_message = f"Weather in {weather_today['city']}, {weather_today['country']}:\n" \
-                                       f"Temperature: {weather_today['temperature']}°C\n" \
-                                       f"Description: {weather_today['description']}\n" \
-                                       f"Humidity: {weather_today['humidity']}%\n" \
-                                       f"Wind Speed: {weather_today['wind_speed']} m/s"
+                                        f"Temperature: {weather_today['temperature']}°C\n" \
+                                        f"Description: {weather_today['description']}\n" \
+                                        f"Humidity: {weather_today['humidity']}%\n" \
+                                        f"Wind Speed: {weather_today['wind_speed']} m/s"
 
                     send_message(token, room_id, formatted_message)
 
@@ -277,6 +290,35 @@ def main():
                                     f"Latitude: {iss_location['latitude']}\n" \
                                     f"Longitude: {iss_location['longitude']}\n" \
                                     f"Place: {iss_location['place']}"
+
+                send_message(token, room_id, formatted_message)
+
+            elif message_text.lower().startswith("/planet"):
+                parts = message_text.split(maxsplit=1)
+
+                if len(parts) < 2:
+                    send_message(token, room_id, "Usage: /planet <name>")
+                else:
+                    planet_name = parts[1]
+
+                planet_info = get_planet_information(planet_name, planet_key)
+
+                """
+                example response:
+
+                [{'name': 'Mars', 'mass': 0.000338, 'radius': 0.0488, 'period': 687.0, 'semi_major_axis': 1.542, 'temperature': 210.0, 'distance_light_year': 3.7e-05, 'host_star_mass': 1.0, 'host_star_temperature': 6000.0}]
+
+                """
+
+                formatted_message = f"Planet Information for {planet_name}:\n" \
+                                    f"Mass: {planet_info[0]['mass']} Earth masses\n" \
+                                    f"Radius: {planet_info[0]['radius']} Earth radii\n" \
+                                    f"Orbital Period: {planet_info[0]['period']} days\n" \
+                                    f"Semi-Major Axis: {planet_info[0]['semi_major_axis']} AU\n" \
+                                    f"Surface Temperature: {planet_info[0]['temperature']} K\n" \
+                                    f"Distance from Sun: {planet_info[0]['distance_light_year']} light-years\n" \
+                                    f"Host Star Mass: {planet_info[0]['host_star_mass']} Solar masses\n" \
+                                    f"Host Star Temperature: {planet_info[0]['host_star_temperature']} K"
 
                 send_message(token, room_id, formatted_message)
 
