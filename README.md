@@ -157,15 +157,21 @@ pattern in development of the Bot
 ```
 
 ## Epoch to Human Time Conversion (Python time module) (2 marks)
+
 | Criteria | Details |
 |---------|---------|
-| Library used | `_______________________________` |
-| Function used to convert epoch | `_______________________________` |
+| Library used | `datetime` |
+| Function used to convert epoch (Bijay Kumar, 2025) | `datetime.fromtimestamp()` |
 | Sample code to convert timestamp |
-```
+```py
+from datetime import datetime
+
+epoch_time = 1234567890
+
+print(datetime.fromtimestamp(epoch_time))
 ```
 |
-| Output (human-readable time) | `_______________________________` |
+| Output (human-readable time) | `2009-02-13 23:31:30` |
 ---
 ## Extended Feature API ( 3 marks)
 | Criteria | Details |
@@ -229,8 +235,7 @@ Provide a short example based on your implementation
 | **View** | Information displayed visually to the user | Formatted response of the weather in London; temperature, wind speed, forecast description, etc.. |
 | **Controller** | Link between the Model and the View, what actions the Model should to take | User sends `/planet Mars`, Mars is identified by the bot, extracts it, and calls the `get_planet_information()` function with `Mars`. Data is processed, formatted, and send back to the user as a message |
 ---
-### 🚀 Reflection and Evaluation ( 8 marks )
-Reflect on your AstroBot (400 words):
+### 🚀 Reflection and Evaluation
 
 AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running one command to get the needed information. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and other information. This will help members learn more about different planets and engage them in discussion.
 
@@ -252,11 +257,12 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
 - GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
+- Kumar, B. (2025). Epoch time to datetime conversion in python. Python Guides. Available at: https://pythonguides.com/python-epoch-to-datetime/ [Accessed 14 Oct. 2026].
 - NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
-w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
+- w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
 
 - Be prepared to explain your findings to your instructor or demo how you retrieved
 them using tools like Postman, Curl, or Python scripts.
