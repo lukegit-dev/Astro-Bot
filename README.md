@@ -11,10 +11,10 @@ pattern in development of the Bot
 | Criteria | Details |
 |---------|---------|
 | API Base URL | `https://webexapis.com/v1/` |
-| Authentication Method | `Bearer Token` |
-| Endpoint to list rooms | `https://webexapis.com/v1/rooms` |
-| Endpoint to get messages | `https://webexapis.com/v1/messages` |
-| Endpoint to send message | `https://webexapis.com/v1/messages` |
+| Authentication Method | `Bearer TOKEN` |
+| Endpoint to list rooms | `GET /rooms` |
+| Endpoint to get messages | `GET /messages` |
+| Endpoint to send message | `POST /messages` |
 | Required headers | `Authorization: Bearer <token>` |
 | Sample full GET or POST request | `GET https://webexapis.com/v1/rooms` |
 ---
@@ -22,8 +22,8 @@ pattern in development of the Bot
 | Criteria | Details |
 |---------|---------|
 | API Base URL | `http://api.open-notify.org` |
-| Endpoint for current ISS location | `http://api.open-notify.org/iss-now.json` |
-| Sample response format (example JSON) |
+| Endpoint for current ISS location | `/iss-now.json` |
+### Sample response format (example JSON)
 ```json
 {
   "message": "success",
@@ -34,19 +34,17 @@ pattern in development of the Bot
   }
 }
 ```
-|
----
+
 ## Geocoding API (4 marks)
 | Criteria | Details |
 |---------|---------|
 | Provider used (Choose one) | **LocationIQ / Mapbox/ OpenWeatherMap other - provide detail** |
 | API Base URL | `http://api.openweathermap.org/geo/1.0/direct` |
-| Endpoint for geocoding | `http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}` |
-| Endpoint for reverse geocoding | `http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}` |
+| Endpoint for geocoding | `/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}` |
+| Endpoint for reverse geocoding | `/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}` |
 | Authentication method | `appid={API key}` |
 | Required query parameters | `lat`, `lon`, `limit`, `appid`, `q` |
-| Sample request with latitude/longitude | `51.5` |
-| Sample JSON response (formatted example) |
+| Sample request with latitude/longitude | `http://api.openweathermap.org/geo/1.0/reverse?lat=51.5074456&lon=-0.1277653&limit=1&appid={API key}` |
 ### Forward Geocoding Example
 ```json
 [
@@ -99,18 +97,16 @@ pattern in development of the Bot
     }
 ]
 ```
-|
 ---
 ## Weather API (3 marks)
 | Criteria | Details |
 |---------|---------|
-| API Provider (Choose one) | **OpenWeather, OpenWeatherMap (or other – provide
-details)** |
+| API Provider (Choose one) | OpenWeatherMap |
 | API Base URLs | `https://api.openweathermap.org/data/2.5/weather` |
-| Endpoint for current weather | `https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API Key}` |
+| Endpoint for current weather | `/data/2.5/weather?q={city}&units=metric&appid={API Key}` |
 | Authentication method | `appId={API key}` |
 | Required query parameters | `lat`, `lon`, `appId` |
-| Example JSON response from https://api.openweathermap.org/data/2.5/weather?q=London |
+### Example JSON response from https://api.openweathermap.org/data/2.5/weather?q=London
 ```json
 {
   "coord": {
@@ -159,8 +155,7 @@ details)** |
   "cod": 200
 }
 ```
-|
----
+
 ## Epoch to Human Time Conversion (Python time module) (2 marks)
 | Criteria | Details |
 |---------|---------|
@@ -175,21 +170,31 @@ details)** |
 ## Extended Feature API ( 3 marks)
 | Criteria | Details |
 |---------|---------|
-| API Provider | '_________' |
-| API Base URL | `_______________________________` |
-| Endpoint | `_______________________________` |
-| Authentication method | `_______________________________` |
-| Required query parameters | `_______________________________` |
+| API Provider | 'API Ninjas' |
+| API Base URL | `https://api.api-ninjas.com/v1/planets` |
+| Endpoint | `/v1/planets` |
+| Authentication method | `X-Api-Key: API_KEY` |
+| Required query parameters | `name` |
 | Sample JSON response (formatted example) |
+```json
+[{
+    'name': 'Mars',
+    'mass': 0.000338,
+    'radius': 0.0488,
+    'period': 687.0,
+    'semi_major_axis': 1.542,
+    'temperature': 210.0,
+    'distance_light_year': 3.7e-05,
+    'host_star_mass': 1.0,
+    'host_star_temperature': 6000.
+}]
 ```
-```
-|
----
+
 ## Evaluation – Web Architecture, MVC Design & Security
 In this section, evaluate how web technologies, architecture, and design patterns
 have been applied in your **AstroBot**. Your responses must relate directly to your
 implementation and include reflection on your design decisions.
----
+
 ### Web Architecture – Client–Server Model (3 marks)
 Explain how the client–server model applies to your AstroBot:
 - Identify the **client**
@@ -231,6 +236,7 @@ Reflect on your AstroBot (400 words):
 ---
 **Tip:** Link your answers directly to your code and examples for higher marks.
 ### References
+- API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
