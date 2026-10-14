@@ -13,6 +13,8 @@ BASE_GEOCODING_URL = "http://api.openweathermap.org/geo/1.0/direct"
 BASE_REVERSE_GEOCODING_URL = "https://api.openweathermap.org/geo/1.0/reverse"
 BASE_ISS_URL = "http://api.open-notify.org/iss-now.json"
 
+BOT_EMAIL = "Astraa@webex.bot"
+
 # These tokens will be reset and removed in the final public release version.
 # If you found this previous version and tried to use it, nice try, it won't work.
 WEBEX_TOKEN = "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
@@ -29,7 +31,6 @@ def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded on
         return "Bearer MY_WEBEX_TOKEN"
     
 def get_api_key(hardcoded_key):
-    #complete the function to get the API key from user input or use a hardcoded key
     choice = input("Use hard-coded API key? (y/n): ").lower()
     if choice == "n":
         return input("Enter your API Key: ")
@@ -91,12 +92,16 @@ def get_latest_message(token, room_id):
         print("Error fetching messages. ERROR CODE", response.status_code)
         return None, None
 
-    data = response.json().get("items", [])
+    data = response.json().get("items", None)
 
     if not data:
         return None, None
-
+    
     latest = data[0]
+
+    if latest.get("personEmail") == BOT_EMAIL:  # Stops the bot from responding to its own messages
+        return None, None
+
     return latest.get("id"), latest.get("text", "")
 
 def send_message(token, room_id, message):
@@ -172,9 +177,11 @@ def get_iss_location(api_key):
     response = requests.get(BASE_ISS_URL)  # http://api.open-notify.org/iss-now.json
 
     if response.status_code != 200:
-        return {'error': 'No ISS location data found'}  # if .get() fails, return an error message as a fallback
+        return 'No ISS location data found'
 
     data = response.json()
+
+    print(data)
 
     lat = data['iss_position']['latitude']
     lon = data['iss_position']['longitude']
@@ -185,6 +192,8 @@ def get_iss_location(api_key):
 
     if location:
         place = location.get('name', place) + ", " + location.get('country', '')
+
+    print(place)
 
     # Return ISS location information including latitude, longitude, and place name
 
@@ -220,6 +229,8 @@ def main():
 
     last_message_id, _ = get_latest_message(token, room_id)
 
+    formatted_message = ""
+
     while True:
 
         message_id, message_text = get_latest_message(token, room_id)
@@ -248,10 +259,26 @@ def main():
                     send_message(token, room_id, "Usage: /weather <city>")
                 else:
                     city = parts[1]
-                    send_message(token, room_id, get_weather(city, weather_key))
+                    weather_today = get_weather(city, weather_key)
+
+                    formatted_message = f"Weather in {weather_today['city']}, {weather_today['country']}:\n" \
+                                       f"Temperature: {weather_today['temperature']}°C\n" \
+                                       f"Description: {weather_today['description']}\n" \
+                                       f"Humidity: {weather_today['humidity']}%\n" \
+                                       f"Wind Speed: {weather_today['wind_speed']} m/s"
+
+                    send_message(token, room_id, formatted_message)
 
             elif message_text.lower() == "/iss":
-                send_message(token, room_id, get_iss_location(weather_key))
+
+                iss_location = get_iss_location(weather_key)
+
+                formatted_message = f"ISS is currently at:\n" \
+                                    f"Latitude: {iss_location['latitude']}\n" \
+                                    f"Longitude: {iss_location['longitude']}\n" \
+                                    f"Place: {iss_location['place']}"
+
+                send_message(token, room_id, formatted_message)
 
             elif message_text.lower() == "/quit":
                 send_message(token, room_id, "AstroBot shutting down.")
