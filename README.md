@@ -222,18 +222,19 @@ Avoiding excessive API calls
 ### MVC Design Pattern in AstroBot (3 Marks)
 Explain how the **Model–View–Controller (MVC)** pattern applies to your solution:
 Provide a short example based on your implementation
-| Component | Description and Example (Relate to your Bot) |
-|------------|----------------------------------|
-| **Model** | |
-| **View** | |
-| **Controller** | |
+
+| Component | Description (geeksforgeeks, 2025) | Example |
+|------------|----------------------------------|------|
+| **Model** | Data logic the user works with | API interaction data - Weather function requests for weather related data from OpenWeatherMap |
+| **View** | Information displayed visually to the user | Formatted response of the weather in London; temperature, wind speed, forecast description, etc.. |
+| **Controller** | Link between the Model and the View, what actions the Model should to take | User sends `/planet Mars`, Mars is identified by the bot, extracts it, and calls the `get_planet_information()` function with `Mars`. Data is processed, formatted, and send back to the user as a message |
 ---
 ### 🚀 Reflection and Evaluation ( 8 marks )
 Reflect on your AstroBot (400 words):
 
-AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running a simple command to get this information quickly. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and distance from the sun in light years. This is useful for astronomy discussions, which helps members learn more about different planets.
+AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running one command to get the needed information. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and other information. This will help members learn more about different planets and engage them in discussion.
 
-One design that worked well was to use slash commands. Starting with a `/`, it becomes easy to understand what a command looks like, and is user friendly to both new and experienced members of the club. `/help` provides a list of all commands available, showing a simplistic way to use them. Not only can this be helpful for new users showing them how to use commands, but also for experienced users to display any new commands that could be added in the future.
+One design that worked well was to use slash commands. Starting with a `/`, it becomes easy to understand what a command looks like, and is user friendly to both new and experienced members of the club. `/help` provides a list of all commands available, showing a simplistic way to use them. Not only can this be helpful for new users showing them how to use commands, but also for experienced users to display any new commands that could be added in the future. In my code, modularizing functions such as `get_weather()` and `get_iss_location()` allows for better maintainability, testing, and troubleshooting. The formatted errors and responses further contribute to improving user and developer experience, as they would understand outputted results and issues better.
 
 When intergrating APIs, I found that formatting received JSON responses was challenging, as there was lots of data format, which needed multiple validation tests to verify it was correct. Converting planet data mass in relation to Earth mass was difficult, but using official NASA web pages I was able to use the conversion value.
 
@@ -245,12 +246,12 @@ For future improvements:
 
 This allows the Astronomy club to plan further in advance when observing the ISS, or looking for a clear day/night to observe stars or planets. It would also help the club decide which days to perform these observations. If a day/night is known to be rainy or have thunder, they can reschedule their event and avoid unnecessary trips.
 
-Another future idea is to include notifications of upcoming events such meteor showers or ISS fly-overs, so they would not need to run a command to check, but be sent a message/email.
 ---
 **Tip:** Link your answers directly to your code and examples for higher marks.
 ### References
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
+- GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
 - NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
