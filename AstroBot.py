@@ -62,14 +62,23 @@ def get_rooms(token):
 
     if response.status_code != 200:  #complete the condition to check if the response status code is not 200:
         print("Error fetching rooms. ERROR CODE", response.status_code)
-        return []
+        return None
 
-    return response.json().get("items", [])  # Attempts to get "items" from JSON response. Returns empty list if not found.
+    return response.json().get("items", None)  # Attempts to get "items" from JSON response. Returns empty list if not found.
 
 def print_rooms(rooms):
     print(rooms)
     for room in rooms:
         print(f"Room Name: {room['title']} | ID: {room['id']}")
+
+def select_room(rooms):
+    while True:
+        name = input("Enter the room name you wish to select: ")
+        for room in rooms:
+            if name.lower() in room["title"].lower():
+                print(f"Selected Room: {room['title']}")
+                return room["id"]
+        print("Room not found!")
 
 def get_latest_message(token, room_id):
     url = BASE_WEBEX_URL+"messages"  #  https://webexapis.com/v1/messages
@@ -118,7 +127,7 @@ def get_city_coordinates(city, api_key):
 def get_weather(city, api_key):
     location = get_city_coordinates(city, api_key)
 
-    if not location:
+    if location is None:
         print("No location found!")
         return {'error': 'No city data found'}  # if .get() fails, return an error message as a fallback
 
@@ -194,8 +203,7 @@ def main():
     #token = get_api_key(get_webex_token())
     #rooms = get_rooms(token)
     #print_rooms(rooms)
-
-    print(get_iss_location(WEATHER_TOKEN))
+    #print(get_iss_location(WEATHER_TOKEN))
 
 if __name__ == "__main__":
     main()
