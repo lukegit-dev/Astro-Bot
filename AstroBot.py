@@ -17,20 +17,18 @@ BASE_PLANETS_URL = "https://api.api-ninjas.com/v1/planets"
 BOT_EMAIL = "Astraa@webex.bot"
 
 # These tokens will be reset and removed in the final public release version.
-# If you found this previous version and tried to use it, nice try, it won't work.
+# If you found this previous version and try to use my token, nice try, it won't work.
 WEBEX_TOKEN = "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
 WEATHER_TOKEN = "1f97fe4a84b771c9268dce4e8a3f3ab2"  # OpenWeatherMap API Key
 PLANETS_TOKEN = "OP0Zlevbwtr0wYRbfqf4TDzoVOdOYpjMkdpNg48T"
 
 def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded one
-    
-    return WEBEX_TOKEN  # This line will be omitted in public version
-    choice = input("Use hard-coded Webex token? (y/n): ").lower()
+    choice = input("Use hard-coded token? (y/n): ").lower()
     if choice == "n":
         token = input("Enter your Webex Access Token: ")
         return f"Bearer {token}"
     else:  # Hardcoded token
-        return "Bearer MY_WEBEX_TOKEN"
+        return WEBEX_TOKEN
     
 def get_api_key(hardcoded_key):
     choice = input("Use hard-coded API key? (y/n): ").lower()
@@ -70,17 +68,29 @@ def get_rooms(token):
     return response.json().get("items", None)  # Attempts to get "items" from JSON response. Returns empty list if not found.
 
 def print_rooms(rooms):
-    print(rooms)
     for room in rooms:
         print(f"Room Name: {room['title']} | ID: {room['id']}")
 
 def select_room(rooms):
     while True:
-        name = input("Enter the room name you wish to select: ")
-        for room in rooms:
-            if name.lower() in room["title"].lower():
+        
+        print("Enter the room number you wish to connect to.\n")
+
+        for i, room in enumerate(rooms):  # Displays a list of room numbers and correlating room name
+            print(f"{i+1}. {room['title']}")
+
+        try:
+            number = int(input("\n: "))  # Converts answer to int
+
+            if 1 <= number <= len(rooms):  # Checks if users number is within range of rooms available / displayed
+                room = rooms[number - 1]  # Python starts indexing at zero for its first value
                 print(f"Selected Room: {room['title']}")
-                return room["id"]
+                return room['id']
+            
+        except ValueError:
+            print("Room has to be a whole number!")
+            continue
+
         print("Room not found!")
 
 def get_latest_message(token, room_id):
@@ -94,9 +104,9 @@ def get_latest_message(token, room_id):
         print("Error fetching messages. ERROR CODE", response.status_code)
         return None, None
 
-    data = response.json().get("items", None)
+    data = response.json().get("items", None)  # tries to get items table, if it fails, return None
 
-    if not data:
+    if not data:  # Fails
         return None, None
     
     latest = data[0]
@@ -159,6 +169,10 @@ def get_weather(city, api_key):
         'wind_speed': weather['wind']['speed']
     }
 
+# =========================
+# PLANET INFO FUNCTION
+# =========================
+
 def get_planet_information(planet_name, api_key):
     
     response = requests.get(
@@ -219,16 +233,13 @@ def get_iss_location(api_key):
 # =========================
 
 def main():
-    print("Running AstroBot")
-    #token = get_api_key(get_webex_token())
-    #rooms = get_rooms(token)
-    #print_rooms(rooms)
-    #print(get_iss_location(WEATHER_TOKEN))
+    print("Welcome to AstroBot\n")
 
+    print("For Webex:", end=" ")
     token = get_webex_token()
-    print("Weather:", end=" ")
+    print("For OpenWeatherMap:", end=" ")
     weather_key = get_api_key(WEATHER_TOKEN)
-    print("Planets:", end=" ")
+    print("For API Ninjas:", end=" ")
     planet_key = get_api_key(PLANETS_TOKEN)
 
     rooms = get_rooms(token)
@@ -237,12 +248,13 @@ def main():
         print("Rooms not found!" )
         return "No rooms found. Error message: " + str(rooms)
 
-    print_rooms(rooms)
     room_id = select_room(rooms)
 
     last_message_id, _ = get_latest_message(token, room_id)
 
     formatted_message = ""
+
+    print("AstroBot is now running.\n")
 
     while True:
 
@@ -252,7 +264,7 @@ def main():
 
             last_message_id = message_id
 
-            print(f"Message ID: {message_id} | Message: {message_text}")
+            print(f"Message: {message_text} | Message ID: {message_id}")
 
             if not message_text.startswith("/"):  # A command needs a prefix
                 continue  # Skip if the message does not start with a prefix
@@ -268,7 +280,7 @@ def main():
 
                 parts = message_text.split(maxsplit=1)
 
-                if len(parts) < 2:
+                if len(parts) < 2:  # User did not apply a city
                     send_message(token, room_id, "Usage: /weather <city>")
                 else:
                     city = parts[1]
@@ -307,8 +319,6 @@ def main():
                     send_message(token, room_id, f"Error fetching planet {planet_name}")
                     continue
 
-                print(planet_info)
-
                 formatted_message = f"Planet Information for {planet_name}:\n" \
                                     f"Mass: ~{(planet_info[0]['mass'] * (1898.13/5.9722)):.3f} Earth masses\n" \
                                     f"Radius: ~{planet_info[0]['radius'] * 11.20898073093868:.3f} Earth radii\n" \
@@ -323,12 +333,12 @@ def main():
 
             elif message_text.lower() == "/quit":
                 send_message(token, room_id, "AstroBot shutting down.")
-                break
+                break  # Exit the loop
 
             else:
                 send_message(token, room_id, "Unknown command. Use /help")
 
-        sleep(5)
+        sleep(5)  # Timeout the bot from receiving commands so that the API rate limits are limited / not exceeded too quickly
 
 if __name__ == "__main__":
     main()
