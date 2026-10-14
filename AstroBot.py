@@ -310,8 +310,8 @@ def main():
                 print(planet_info)
 
                 formatted_message = f"Planet Information for {planet_name}:\n" \
-                                    f"Mass: ~{(planet_info[0]['mass'] * 317.8941898739881):.3f} Earth masses\n" \
-                                    f"Radius: {planet_info[0]['radius'] * 11.20898073093868:.3f} Earth radii\n" \
+                                    f"Mass: ~{(planet_info[0]['mass'] * (1898.13/5.9722)):.3f} Earth masses\n" \
+                                    f"Radius: ~{planet_info[0]['radius'] * 11.20898073093868:.3f} Earth radii\n" \
                                     f"Orbital Period: {planet_info[0]['period']} days\n" \
                                     f"Semi-Major Axis: {planet_info[0]['semi_major_axis']} AU\n" \
                                     f"Surface Temperature: {planet_info[0]['temperature']} K ({planet_info[0]['temperature'] - 273.15:.2f}°C)\n" \
