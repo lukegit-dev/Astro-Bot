@@ -315,7 +315,7 @@ def main():
                                     f"Orbital Period: {planet_info[0]['period']} days\n" \
                                     f"Semi-Major Axis: {planet_info[0]['semi_major_axis']} AU\n" \
                                     f"Surface Temperature: {planet_info[0]['temperature']} K ({planet_info[0]['temperature'] - 273.15:.2f}°C)\n" \
-                                    f"Distance from Sun: {planet_info[0]['distance_light_year']:.10f} light-years\n" \
+                                    f"Distance from Sun: {planet_info[0]['distance_light_year']} light-years\n" \
                                     f"Host Star Mass: {planet_info[0]['host_star_mass']} Solar masses\n" \
                                     f"Host Star Temperature: {planet_info[0]['host_star_temperature']} K ({planet_info[0]['host_star_temperature'] - 273.15:.2f}°C)"
 
