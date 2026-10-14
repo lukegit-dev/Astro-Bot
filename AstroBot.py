@@ -8,9 +8,10 @@ import time
 # =========================
 
 BASE_WEBEX_URL = "https://webexapis.com/v1/"
-BASE_ISS_URL = "http://api.open-notify.org"
 BASE_OPENWEATHERMAP_URL = "http://api.openweathermap.org/data/2.5/weather"
 BASE_GEOCODING_URL = "http://api.openweathermap.org/geo/1.0/direct"
+BASE_REVERSE_GEOCODING_URL = "https://api.openweathermap.org/geo/1.0/reverse"
+BASE_ISS_URL = "http://api.open-notify.org/iss-now.json"
 
 # These tokens will be reset and removed in the final public release version.
 # If you found this previous version and tried to use it, nice try, it won't work.
@@ -119,17 +120,15 @@ def get_weather(city, api_key):
 
     if not location:
         print("No location found!")
-        return {}  # complete the return statement to indicate that the city was not found
+        return {'error': 'No city data found'}  # if .get() fails, return an error message as a fallback
 
     params = {'lat': location['lat'], 'lon': location['lon'], 'units': 'metric', 'appid': api_key}  # latitude, longitude, units as metric, and the API key
 
     response = requests.get(BASE_OPENWEATHERMAP_URL, params=params)
 
-    print(response)
-
     if response.status_code != 200:  # The response was unsuccessful
         print("No weather info found, status code error:", response.status_code)
-        return {}  # You can use get_weather(city, api_key).get(...), if it returns None, the response was not successful
+        return {'error': 'No weather data found'}  # if .get() fails, return an error message as a fallback
 
     weather = response.json()
 
@@ -145,6 +144,48 @@ def get_weather(city, api_key):
     }
 
 # =========================
+# ISS FUNCTIONS
+# =========================
+def reverse_geocode(lat, lon, api_key):
+    params = {'lat': lat, 'lon': lon, 'limit': 1, 'appid': api_key}  # params including the latitude, longitude, limit, and the API key
+
+    response = requests.get(BASE_REVERSE_GEOCODING_URL, params=params)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json()
+    return data[0] if data else None
+
+
+def get_iss_location(api_key):
+
+    response = requests.get(BASE_ISS_URL)  # http://api.open-notify.org/iss-now.json
+
+    if response.status_code != 200:
+        return {'error': 'No ISS location data found'}  # if .get() fails, return an error message as a fallback
+
+    data = response.json()
+
+    lat = data['iss_position']['latitude']
+    lon = data['iss_position']['longitude']
+
+    location = reverse_geocode(lat, lon, api_key)
+
+    place = "Over Ocean / No Nearby City"
+
+    if location:
+        place = location.get('name', place) + ", " + location.get('country', '')
+
+    # Return ISS location information including latitude, longitude, and place name
+
+    return {
+        'latitude': lat,
+        'longitude': lon,
+        'place': place
+    }
+
+# =========================
 # MAIN BOT LOGIC
 # =========================
 
@@ -154,7 +195,7 @@ def main():
     #rooms = get_rooms(token)
     #print_rooms(rooms)
 
-    print(get_weather("London", WEATHER_TOKEN))
+    print(get_iss_location(WEATHER_TOKEN))
 
 if __name__ == "__main__":
-    print(main())
+    main()
