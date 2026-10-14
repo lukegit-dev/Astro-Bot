@@ -193,7 +193,7 @@ print(datetime.fromtimestamp(epoch_time))
     'temperature': 210.0,
     'distance_light_year': 3.7e-05,
     'host_star_mass': 1.0,
-    'host_star_temperature': 6000.
+    'host_star_temperature': 6000.0
   }
 ]
 ```
