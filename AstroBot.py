@@ -1,7 +1,7 @@
 import requests
 import json
 from datetime import datetime
-import time
+from time import sleep
 
 # =========================
 # CONFIGURATION FUNCTIONS
@@ -170,7 +170,7 @@ def get_planet_information(planet_name, api_key):
         return response.json()
     else:
         print("Error with fetching planet information:", response.status_code, response.text)
-        return "Error fetching planet information"
+        return None
 
 # =========================
 # ISS FUNCTIONS
@@ -303,22 +303,21 @@ def main():
 
                 planet_info = get_planet_information(planet_name, planet_key)
 
-                """
-                example response:
+                if not planet_info:
+                    send_message(token, room_id, f"Error fetching planet {planet_name}")
+                    continue
 
-                [{'name': 'Mars', 'mass': 0.000338, 'radius': 0.0488, 'period': 687.0, 'semi_major_axis': 1.542, 'temperature': 210.0, 'distance_light_year': 3.7e-05, 'host_star_mass': 1.0, 'host_star_temperature': 6000.0}]
-
-                """
+                print(planet_info)
 
                 formatted_message = f"Planet Information for {planet_name}:\n" \
-                                    f"Mass: {planet_info[0]['mass']} Earth masses\n" \
-                                    f"Radius: {planet_info[0]['radius']} Earth radii\n" \
+                                    f"Mass: ~{(planet_info[0]['mass'] * 317.8941898739881):.3f} Earth masses\n" \
+                                    f"Radius: {planet_info[0]['radius'] * 11.20898073093868:.3f} Earth radii\n" \
                                     f"Orbital Period: {planet_info[0]['period']} days\n" \
                                     f"Semi-Major Axis: {planet_info[0]['semi_major_axis']} AU\n" \
-                                    f"Surface Temperature: {planet_info[0]['temperature']} K\n" \
-                                    f"Distance from Sun: {planet_info[0]['distance_light_year']} light-years\n" \
+                                    f"Surface Temperature: {planet_info[0]['temperature']} K ({planet_info[0]['temperature'] - 273.15:.2f}°C)\n" \
+                                    f"Distance from Sun: {planet_info[0]['distance_light_year']:.10f} light-years\n" \
                                     f"Host Star Mass: {planet_info[0]['host_star_mass']} Solar masses\n" \
-                                    f"Host Star Temperature: {planet_info[0]['host_star_temperature']} K"
+                                    f"Host Star Temperature: {planet_info[0]['host_star_temperature']} K ({planet_info[0]['host_star_temperature'] - 273.15:.2f}°C)"
 
                 send_message(token, room_id, formatted_message)
 
@@ -329,7 +328,7 @@ def main():
             else:
                 send_message(token, room_id, "Unknown command. Use /help")
 
-        time.sleep(5)
+        sleep(5)
 
 if __name__ == "__main__":
     main()
