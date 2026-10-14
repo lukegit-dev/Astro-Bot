@@ -1,7 +1,16 @@
 import requests
 import json
+import os
+
+from dotenv import load_dotenv
 from datetime import datetime
 from time import sleep
+
+load_dotenv()
+
+WEBEX_TOKEN = os.getenv("WEBEX_TOKEN")
+WEATHER_TOKEN = os.getenv("WEATHER_TOKEN")
+API_NINJAS_TOKEN = os.getenv("API_NINJAS_TOKEN")
 
 # =========================
 # CONFIGURATION FUNCTIONS
@@ -15,12 +24,6 @@ BASE_ISS_URL = "http://api.open-notify.org/iss-now.json"
 BASE_PLANETS_URL = "https://api.api-ninjas.com/v1/planets"
 
 BOT_EMAIL = "Astraa@webex.bot"
-
-# These tokens will be reset and removed in the final public release version.
-# If you found this previous version and try to use my token, nice try, it won't work.
-WEBEX_TOKEN = "Bearer ZGNjNTAzMTctZTVmNS00ZTExLWI3M2YtN2I3MzdhMTFlNTAxN2JlMThjMzQtNTEx_PE93_c18e13ae-5575-4bc0-ae01-e48905f14f17"
-WEATHER_TOKEN = "1f97fe4a84b771c9268dce4e8a3f3ab2"  # OpenWeatherMap API Key
-PLANETS_TOKEN = "OP0Zlevbwtr0wYRbfqf4TDzoVOdOYpjMkdpNg48T"
 
 def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded one
     choice = input("Use hard-coded token? (y/n): ").lower()
@@ -183,7 +186,7 @@ def get_planet_information(planet_name, api_key):
     if response.status_code == 200:
         return response.json()
     else:
-        print("Error with fetching planet information:", response.status_code, response.text)
+        print("Error with fetching planet information:", response.status_code, response.text['error'])
         return None
 
 # =========================
@@ -240,7 +243,7 @@ def main():
     print("For OpenWeatherMap:", end=" ")
     weather_key = get_api_key(WEATHER_TOKEN)
     print("For API Ninjas:", end=" ")
-    planet_key = get_api_key(PLANETS_TOKEN)
+    planet_key = get_api_key(API_NINJAS_TOKEN)
 
     rooms = get_rooms(token)
 
@@ -254,7 +257,7 @@ def main():
 
     formatted_message = ""
 
-    print("AstroBot is now running.\n")
+    print("AstroBot is now running\n")
 
     while True:
 
