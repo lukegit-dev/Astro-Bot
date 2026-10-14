@@ -170,8 +170,8 @@ epoch_time = 1234567890
 
 print(datetime.fromtimestamp(epoch_time))
 ```
-|
-| Output (human-readable time) | `2009-02-13 23:31:30` |
+Output (human-readable time): `2009-02-13 23:31:30`
+
 ---
 ## Extended Feature API ( 3 marks)
 | Criteria | Details |
