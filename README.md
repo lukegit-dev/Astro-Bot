@@ -175,8 +175,8 @@ pattern in development of the Bot
 | Endpoint | `/v1/planets` |
 | Authentication method | `X-Api-Key: API_KEY` |
 | Required query parameters | `name` |
-| Sample JSON response (formatted example) |
-```json
+### Sample JSON response (formatted example)
+```jsonl
 [{
     'name': 'Mars',
     'mass': 0.000338,
@@ -231,10 +231,6 @@ Reflect on your AstroBot (400 words):
 AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running a simple command to get this information quickly. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and distance from the sun in light years. This is useful for astronomy discussions, which helps members learn more about different planets.
 
 One design that worked well was to use slash commands. Starting with a `/`, it becomes easy to understand what a command looks like, and is user friendly to both new and experienced members of the club. `/help` provides a list of all commands available, showing a simplistic way to use them. Not only can this be helpful for new users showing them how to use commands, but also for experienced users to display any new commands that could be added in the future.
-
-
-
-
 
 - ~~How effective is your bot in meeting the Astronomy Club’s needs?~~  
 - ~~What design decisions worked well?~~
