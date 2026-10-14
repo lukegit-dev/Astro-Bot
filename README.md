@@ -228,8 +228,16 @@ Provide a short example based on your implementation
 ---
 ### 🚀 Reflection and Evaluation ( 8 marks )
 Reflect on your AstroBot (400 words):
-- How effective is your bot in meeting the Astronomy Club’s needs?
-- What design decisions worked well?
+AstroBot is effective at completing its task. It gives the Astronomy Club relevant information through simple commands without the users needing to search on the web. `/weather <city>` retrieves weather information such as the forecast, and `/iss` for information displaying the ISS's latitude and longitude. This enables the Astronomy Club to plan observations of the night sky or International Space Station (ISS) more effectively by running a simple command to get this information quickly. `/planet <name>` gives statistics about a planet, like its mass (in Earth masses), surface temperature (in both Kelvin and Celsius), and distance from the sun in light years. This is useful for astronomy discussions, which helps members learn more about different planets.
+
+One design that worked well was to use slash commands. Starting with a `/`, it becomes easy to understand what a command looks like, and is user friendly to both new and experienced members of the club. `/help` provides a list of all commands available, showing a simplistic way to use them. Not only can this be helpful for new users showing them how to use commands, but also for experienced users to display any new commands that could be added in the future.
+
+
+
+
+
+- ~~How effective is your bot in meeting the Astronomy Club’s needs?~~  
+- ~~What design decisions worked well?~~
 - What challenges did you face when integrating APIs?
 - What security risks did you identify and how were they handled?
 - How could your solution be improved in the future?
@@ -242,8 +250,7 @@ Reflect on your AstroBot (400 words):
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
 w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
-- Use official documentation for accuracy (e.g. developer.webex.com, locationiq.com
-or Mapbox, open-notify.org or other ISS API).
+
 - Be prepared to explain your findings to your instructor or demo how you retrieved
 them using tools like Postman, Curl, or Python scripts.
 
