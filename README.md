@@ -106,7 +106,8 @@ pattern in development of the Bot
 | Endpoint for current weather | `/data/2.5/weather?q={city}&units=metric&appid={API Key}` |
 | Authentication method | `appId={API key}` |
 | Required query parameters | `lat`, `lon`, `appId` |
-### Example JSON response from https://api.openweathermap.org/data/2.5/weather?q=London
+### Example JSON response
+Using: https://api.openweathermap.org/data/2.5/weather?q=London
 ```json
 {
   "coord": {
@@ -216,6 +217,17 @@ limiting, and Input validation (e.g., handling user commands safely), include
 examples from code where necessary to illustrate.
 ---
 ### RESTful API Usage in Your Application (3 marks )
+REST, standing for REpresentational State Transfer (Gupta, L., 2019).
+#### HTTP method usage
+- placeholder for GET
+- placeholder fort POST
+#### API interaction
+- Examples in my code
+### JSON responses processing
+- How they are recieved
+- How they are processed
+- Code example
+
 Explain how REST APIs are used in your AstroBot:
 - Describe how HTTP methods (GET, POST) are used
 - Explain how your bot interacts with APIs (Webex, Weather, ISS, Geocoding)
@@ -257,6 +269,7 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
 - GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
+- Gupta, L. (2019). What is REST – learn to create timeless REST APIs. Restfulapi.net. Available at: https://restfulapi.net/ [Accessed 19 Oct. 2026].
 - Kumar, B. (2025). Epoch time to datetime conversion in python. Python Guides. Available at: https://pythonguides.com/python-epoch-to-datetime/ [Accessed 14 Oct. 2026].
 - NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
