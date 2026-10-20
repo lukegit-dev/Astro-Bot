@@ -203,7 +203,8 @@ How the client interacts with the server through sending messages and getting re
 
 A user sends a commant which is received by the server is captured by AstroBot using a GET request with the Webex API. The user data is processed and connected to the relevant API, which is sent and retrieved. The request of the specific API is processed and formatted for the user, before being sent back to them with a POST request using the Webex API for the client to see.
 #### Security Considerations
-Processing data could expose API keys within the log, so data is handled 
+- Processing data could expose API keys within the log, so data is handled safely without leaving traces of sensitive information. Logging should only contain relevant information to the developer or anyone who has access without exposing sensitive information. Using `getpass()` allows API keys and tokens being pasted manually are not logged, making them invisible. Additionally, a `.env` file would store these authentication keys allowing for a faster login without exposing what the keys are in the console.
+- Inputs are validated so errors are handled properly. By having specific matching patterns by using `if`, `elif`, and `else` with messages matching `/`, we can control what commands are valid and should be used. The `else` block handles any invalid commands, redirecting the user to use the `/help` command if they are stuck.
 - Consider but not limiting to secure handling of API keys and tokens, API rate
 limiting, and Input validation (e.g., handling user commands safely), include
 examples from code where necessary to illustrate.
@@ -300,6 +301,7 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 ### References
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
+- GeeksforGeeks (2017). Getpass() and getuser() in python. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/python/getpass-and-getuser-in-python-password-without-echo/ [Accessed 20 Oct. 2026].
 - GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
 - Gupta, L. (2019). What is REST – learn to create timeless REST APIs. Restfulapi.net. Available at: https://restfulapi.net/ [Accessed 19 Oct. 2026].
 - Jain, P. (2025). HTTP STATUS CODES: Complete list & troubleshooting guide. Bluehost Blog. Available at: https://www.bluehost.com/blog/http-status-codes/ [Accessed 20 Oct. 2026].
