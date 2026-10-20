@@ -27,7 +27,7 @@
 }
 ```
 
-## Geocoding API (4 marks)
+## Geocoding API
 | Criteria | Details |
 |---------|---------|
 | Provider used (Choose one) | **LocationIQ / Mapbox/ OpenWeatherMap other - provide detail** |
@@ -192,22 +192,18 @@ Output (human-readable time): `2009-02-13 23:31:30`
 ```
 
 ## Evaluation – Web Architecture, MVC Design & Security
-In this section, evaluate how web technologies, architecture, and design patterns
-have been applied in your **AstroBot**. Your responses must relate directly to your
-implementation and include reflection on your design decisions.
-
-### Web Architecture – Client–Server Model (3 marks)
+Evaluating how web technologies, architecture, and design patterns
+have been applied in AstroBot.
+### Web Architecture – Client–Server Model
 How the client interacts with the server through sending messages and getting responses.
 - The user (client) interacts with AstroBot through sending it commands on Webex.
 - Webex is the main server, handling the User Interface (UI) and messaging platform my bot runs on. The APIs are services used to send and retrieve data.  This includes Webex for sending and retrieving messages, OpenWeatherMap for forward and reverse geocoding, and weather information, Open Notify for ISS location, and API Ninjas for planetary information.
 
+#### Example
 A user sends a commant which is received by the server is captured by AstroBot using a GET request with the Webex API. The user data is processed and connected to the relevant API, which is sent and retrieved. The request of the specific API is processed and formatted for the user, before being sent back to them with a POST request using the Webex API for the client to see.
 #### Security Considerations
 - Processing data could expose API keys within the log, so data is handled safely without leaving traces of sensitive information. Logging should only contain relevant information to the developer or anyone who has access without exposing sensitive information. Using `getpass()` allows API keys and tokens being pasted manually are not logged, making them invisible. Additionally, a `.env` file would store these authentication keys allowing for a faster login without exposing what the keys are in the console.
 - Inputs are validated so errors are handled properly. By having specific matching patterns by using `if`, `elif`, and `else` with messages matching `/`, we can control what commands are valid and should be used. The `else` block handles any invalid commands, redirecting the user to use the `/help` command if they are stuck. If a command is correctly formatted but has wrong parameters, it should be also handled, returning an invalid command message. Example: `/planet Krypton` -> `Error fetching planet Krypton`.
-- Consider but not limiting to secure handling of API keys and tokens, API rate
-limiting, and Input validation (e.g., handling user commands safely), include
-examples from code where necessary to illustrate.
 ---
 ### RESTful API Usage in Your Application
 REST, standing for REpresentational State Transfer (Gupta, L., 2019).
@@ -266,13 +262,13 @@ def get_weather(city, api_key):
     }
 ```
 
-#### Security Considerations: (2 marks)
+#### Security Considerations
 Checking and handling status codes is used to prevent the bot from crashing, acting as a failsafe. When a status code recieved from an API `GET` request. If the status returned is `200`, the request was successful and worked as expected (Jain, P., 2025). If there was any other status code returned, we can return information not found, or None. For example, if `/weather London` was not a success, a message of  "weather information not found" or "City was not found".
 
 Calling APIs can result in a rate limit if we reach a specific number of calls, so data could be cached locally for a limited time. For example, if the Astronomy Club frequently ran the command `/weather London`, the API could put us on timeout. The solution would be to cache the result once, then return the cached result every time the user calls `/weather London`. With weather for example,, it is unlikely that a forecast changes quickly, so say during 2 minutes we return the cached result, and when the timer ends, we call the OpenWeatherMap API again and repeat the process.
 
 ---
-### MVC Design Pattern in AstroBot (3 Marks)
+### MVC Design Pattern in AstroBot
 
 | Component | Description (geeksforgeeks, 2025) | Example |
 |------------|----------------------------------|------|
@@ -297,7 +293,6 @@ For future improvements:
 This allows the Astronomy club to plan further in advance when observing the ISS, or looking for a clear day/night to observe stars or planets. It would also help the club decide which days to perform these observations. If a day/night is known to be rainy or have thunder, they can reschedule their event and avoid unnecessary trips.
 
 ---
-**Tip:** Link your answers directly to your code and examples for higher marks.
 ### References
 - API Ninjas (2019). Planets API. API Ninjas. Available at: https://api-ninjas.com/api/planets [Accessed 14 Oct. 2026].
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
