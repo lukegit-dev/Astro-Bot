@@ -148,8 +148,8 @@ def get_weather(city, api_key):
     location = get_city_coordinates(city, api_key)
 
     if location is None:
-        print("No location found!")
-        return {'error': 'No city data found'}  # if .get() fails, return an error message as a fallback
+        print("No weather data found")
+        return {'error': 'No city data found.'}  # if .get() fails, return an error message as a fallback
 
     params = {'lat': location['lat'], 'lon': location['lon'], 'units': 'metric', 'appid': api_key}  # latitude, longitude, units as metric, and the API key
 
@@ -157,7 +157,7 @@ def get_weather(city, api_key):
 
     if response.status_code != 200:  # The response was unsuccessful
         print("No weather info found, status code error:", response.status_code)
-        return {'error': 'No weather data found'}  # if .get() fails, return an error message as a fallback
+        return {'error': 'Weather data is unavailable'}  # if .get() fails, return an error message as a fallback
 
     weather = response.json()
 
@@ -289,11 +289,16 @@ def main():
                     city = parts[1]
                     weather_today = get_weather(city, weather_key)
 
-                    formatted_message = f"Weather in {weather_today['city']}, {weather_today['country']}:\n" \
-                                        f"Temperature: {weather_today['temperature']}°C\n" \
-                                        f"Description: {weather_today['description']}\n" \
-                                        f"Humidity: {weather_today['humidity']}%\n" \
-                                        f"Wind Speed: {weather_today['wind_speed']} m/s"
+                    formatted_message = ""
+
+                    if not weather_today.get("error"):
+                        formatted_message = f"Weather in {weather_today['city']}, {weather_today['country']}:\n" \
+                                            f"Temperature: {weather_today['temperature']}°C\n" \
+                                            f"Description: {weather_today['description']}\n" \
+                                            f"Humidity: {weather_today['humidity']}%\n" \
+                                            f"Wind Speed: {weather_today['wind_speed']} m/s"
+                    else:
+                        formatted_message = weather_today['error']  # The error message
 
                     send_message(token, room_id, formatted_message)
 
