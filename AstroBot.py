@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 from time import sleep
+from getpass import getpass
 
 load_dotenv()
 
@@ -28,7 +29,7 @@ BOT_EMAIL = "Astraa@webex.bot"
 def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded one
     choice = input("Use hard-coded token? (y/n): ").lower()
     if choice == "n":
-        token = input("Enter your Webex Access Token: ")
+        token = getpass(prompt="Enter your Webex Access Token: ")
         return f"Bearer {token}"
     else:  # Hardcoded token
         return WEBEX_TOKEN
@@ -36,7 +37,7 @@ def get_webex_token():  # Asks the user for a Webex token or uses a hardcoded on
 def get_api_key(hardcoded_key):
     choice = input("Use hard-coded API key? (y/n): ").lower()
     if choice == "n":
-        return input("Enter your API Key: ")
+        return getpass(prompt="Enter your API Key: ")
     else:
         return hardcoded_key
     
