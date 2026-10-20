@@ -268,6 +268,7 @@ def get_weather(city, api_key):
 
 #### Security Considerations: (2 marks)
 Checking and handling status codes is used to prevent the bot from crashing, acting as a failsafe. When a status code recieved from an API `GET` request. If the status returned is `200`, the request was successful and worked as expected (Jain, P., 2025). If there was any other status code returned, we can return information not found, or None. For example, if `/weather London` was not a success, a message of  "weather information not found" or "City was not found".
+
 Calling APIs can result in a rate limit if we reach a specific number of calls, so data could be cached locally for a limited time. For example, if the Astronomy Club frequently ran the command `/weather London`, the API could put us on timeout. The solution would be to cache the result once, then return the cached result every time the user calls `/weather London`. With weather for example,, it is unlikely that a forecast changes quickly, so say during 2 minutes we return the cached result, and when the timer ends, we call the OpenWeatherMap API again and repeat the process.
 
 ---
