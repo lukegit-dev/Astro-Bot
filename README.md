@@ -218,12 +218,13 @@ examples from code where necessary to illustrate.
 ---
 ### RESTful API Usage in Your Application (3 marks )
 REST, standing for REpresentational State Transfer (Gupta, L., 2019).
-#### HTTP method usage
-- placeholder for GET
-- placeholder fort POST
-#### API interaction
-- Examples in my code
-### JSON responses processing
+#### HTTP Method Usage
+- Using `requests.get()`, you can retrieve data from a specified url, and can pass data with it to get a response. In my program, I used Webex url with `/messages` and `/rooms` to get information about what the user sent and what room to look for those messages in. For example, in `/messages`I use `requests.get(url, headers=headers, params=params)` to get their response, attaching my authorization token and any parameters like `roomId` to retrieve the relevant response.
+- Using `requests.post()`, you can send data. I use it to post messages back to the user after retrieving relevant data based on the command they ran. For example, a user sends the command `/iss`. After retrieving and formatting data like converting the coordinates to see if it is flying over a specific city, that information is posted back to the user so they can see it visually in a more human-readable format. I use `requests.post(url, headers=headers, data=json.dumps(data))` to do this.
+#### API Interaction Examples
+- `/city London` will give relevant weather data in London, such as temperature and forecast description.
+- `/planet Mars` gives planetary information about Mars, such as mass, orbital period, and radius, which are converted in terms of Earth ratio.
+### JSON Responses Processing
 - How they are recieved
 - How they are processed
 - Code example
