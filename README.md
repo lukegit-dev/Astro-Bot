@@ -197,13 +197,13 @@ have been applied in your **AstroBot**. Your responses must relate directly to y
 implementation and include reflection on your design decisions.
 
 ### Web Architecture – Client–Server Model (3 marks)
-Explain how the client–server model applies to your AstroBot:
-- Identify the **client**
-- Identify the **server(s)**
-- Describe how data flows between:
-- User, AstroBot and APIs
-Include a **simple block diagram** to illustrate this interaction.
-#### Security Considerations: (3 marks )
+How the client interacts with the server through sending messages and getting responses.
+- The user (client) interacts with AstroBot through sending it commands on Webex.
+- Webex is the main server, handling the User Interface (UI) and messaging platform my bot runs on. The APIs are services used to send and retrieve data.  This includes Webex for sending and retrieving messages, OpenWeatherMap for forward and reverse geocoding, and weather information, Open Notify for ISS location, and API Ninjas for planetary information.
+
+A user sends a commant which is received by the server is captured by AstroBot using a GET request with the Webex API. The user data is processed and connected to the relevant API, which is sent and retrieved. The request of the specific API is processed and formatted for the user, before being sent back to them with a POST request using the Webex API for the client to see.
+#### Security Considerations
+Processing data could expose API keys within the log, so data is handled 
 - Consider but not limiting to secure handling of API keys and tokens, API rate
 limiting, and Input validation (e.g., handling user commands safely), include
 examples from code where necessary to illustrate.
