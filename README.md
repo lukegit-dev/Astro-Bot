@@ -1,6 +1,5 @@
 # 🚀 Space Bot API Investigation Sheet
-**Total Marks: 40**
-## Webex Messaging API (4 marks)
+## Webex Messaging API
 | Criteria | Details |
 |---------|---------|
 | API Base URL | `https://webexapis.com/v1/` |
@@ -11,12 +10,12 @@
 | Required headers | `Authorization: Bearer <token>` |
 | Sample full GET or POST request | `GET https://webexapis.com/v1/rooms` |
 ---
-## ISS Current Location API (2 marks)
+## ISS Current Location API
 | Criteria | Details |
 |---------|---------|
 | API Base URL | `http://api.open-notify.org` |
 | Endpoint for current ISS location | `/iss-now.json` |
-### Sample response format (example JSON)
+### Sample Response Example
 ```json
 {
   "message": "success",
@@ -91,7 +90,7 @@
 ]
 ```
 ---
-## Weather API (3 marks)
+## Weather API
 | Criteria | Details |
 |---------|---------|
 | API Provider (Choose one) | OpenWeatherMap |
@@ -99,7 +98,7 @@
 | Endpoint for current weather | `/data/2.5/weather?q={city}&units=metric&appid={API Key}` |
 | Authentication method | `appId={API key}` |
 | Required query parameters | `lat`, `lon`, `appId` |
-### Example JSON response
+### Example JSON Response
 Using: https://api.openweathermap.org/data/2.5/weather?q=London
 ```json
 {
@@ -150,7 +149,7 @@ Using: https://api.openweathermap.org/data/2.5/weather?q=London
 }
 ```
 
-## Epoch to Human Time Conversion (Python time module) (2 marks)
+## Epoch to Human Time Conversion
 
 | Criteria | Details |
 |---------|---------|
@@ -167,7 +166,7 @@ print(datetime.fromtimestamp(epoch_time))
 Output (human-readable time): `2009-02-13 23:31:30`
 
 ---
-## Extended Feature API ( 3 marks)
+## Extended Feature API
 | Criteria | Details |
 |---------|---------|
 | API Provider | 'API Ninjas' |
@@ -209,7 +208,7 @@ Include a **simple block diagram** to illustrate this interaction.
 limiting, and Input validation (e.g., handling user commands safely), include
 examples from code where necessary to illustrate.
 ---
-### RESTful API Usage in Your Application (3 marks )
+### RESTful API Usage in Your Application
 REST, standing for REpresentational State Transfer (Gupta, L., 2019).
 #### HTTP Method Usage
 - Using `requests.get()`, you can retrieve data from a specified url, and can pass data with it to get a response. In my program, I used Webex url with `/messages` and `/rooms` to get information about what the user sent and what room to look for those messages in. For example, in `/messages`I use `requests.get(url, headers=headers, params=params)` to get their response, attaching my authorization token and any parameters like `roomId` to retrieve the relevant response.
