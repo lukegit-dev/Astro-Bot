@@ -225,9 +225,52 @@ REST, standing for REpresentational State Transfer (Gupta, L., 2019).
 - `/city London` will give relevant weather data in London, such as temperature and forecast description.
 - `/planet Mars` gives planetary information about Mars, such as mass, orbital period, and radius, which are converted in terms of Earth ratio.
 ### JSON Responses Processing
-- How they are recieved
-- How they are processed
-- Code example
+#### Data Retrieval and Processing 
+- APIs return data in the format of JSON, which is processed using `.json()` so that python can read it properly. JSON has headings which can be retrieved through specifying the name of the data you wish to use.
+#### Example using `/weather London`
+After recieving the command, we first match if the user message starts with `/weather` to ensure it is the command we want to process. We do this using `message_text.lower().startswith("/weather")`. Next, we split the message into parts using `parts = message_text.split(maxsplit=1)` and make sure there are two parts; the `/weather` and `London`. Now we can use `London` as a query parameter to get weather information using our `OpenWeatherMap` API url. Convert any data which was a bad request gracefully to readable information, and use `weather['TITLE']` to get the information we need. Example: `weather['temperature']` returns the temperature of the weather in London.
+#### Code Example
+```py
+def get_city_coordinates(city, api_key):
+    params = {'q': city, 'limit': 1, 'appid': api_key}  # city name, limit, and the API key in params
+    response = requests.get('http://api.openweathermap.org/geo/1.0/direct', params=params)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json()
+
+    return data[0] if data else None
+
+
+def get_weather(city, api_key):
+    location = get_city_coordinates(city, api_key)
+
+    if location is None:
+        print("No location found!")
+        return {'error': 'No city data found'}  # if .get() fails, return an error message as a fallback
+
+    params = {'lat': location['lat'], 'lon': location['lon'], 'units': 'metric', 'appid': api_key}  # latitude, longitude, units as metric, and the API key
+
+    response = requests.get('http://api.openweathermap.org/data/2.5/weather', params=params)
+
+    if response.status_code != 200:  # The response was unsuccessful
+        print("No weather info found, status code error:", response.status_code)
+        return {'error': 'No weather data found'}  # if .get() fails, return an error message as a fallback
+
+    weather = response.json()
+
+    # Return the weather information including city name, country, temperature, weather description, humidity, and wind speed
+    
+    return {
+        'city': weather['name'],
+        'country': weather['sys']['country'],
+        'temperature': weather['main']['temp'],
+        'description': weather['weather'][0]['description'],
+        'humidity': weather['main']['humidity'],
+        'wind_speed': weather['wind']['speed']
+    }
+```
 
 Explain how REST APIs are used in your AstroBot:
 - Describe how HTTP methods (GET, POST) are used
