@@ -61,10 +61,10 @@ def get_rooms(token):
     }
     """
     url = BASE_WEBEX_URL+"rooms"  # URL to fetch rooms from Webex API
-    headers = {'Authorization': token}  #complete the headers dictionary to include the Authorization header with the token
-    response = requests.get(url, headers=headers)  #complete the request to get rooms using requests.get with the url and headers
+    headers = {'Authorization': token}  # Include Authorization in headers
+    response = requests.get(url, headers=headers)  # Get rooms using requests.get with the url and headers
 
-    if response.status_code != 200:  #complete the condition to check if the response status code is not 200:
+    if response.status_code != 200:  # Check if the response status code is not 200
         print("Error fetching rooms. ERROR CODE", response.status_code)
         return None
 
@@ -121,7 +121,7 @@ def get_latest_message(token, room_id):
 
 def send_message(token, room_id, message):
     url = BASE_WEBEX_URL+"messages"
-    headers = {'Authorization': token, 'Content-Type': 'application/json'} #complete the headers dictionary to include the Authorization header with the token and Content-Type as application/json
+    headers = {'Authorization': token, 'Content-Type': 'application/json'} # Authorization header (token) and Content-Type as application/json to be included on request.post()
     data = {
         "roomId": room_id,
         "text": message
@@ -133,7 +133,7 @@ def send_message(token, room_id, message):
 # =========================
 
 def get_city_coordinates(city, api_key):
-    params = {'q': city, 'limit': 1, 'appid': api_key}  # city name, limit, and the API key in params
+    params = {'q': city, 'limit': 1, 'appid': api_key}  # City name, limit, and the API key in params
     response = requests.get(BASE_GEOCODING_URL, params=params)
 
     if response.status_code != 200:
@@ -311,10 +311,10 @@ def main():
             elif message_text.lower().startswith("/planet"):
                 parts = message_text.split(maxsplit=1)
 
-                if len(parts) < 2:
+                if len(parts) < 2:  # If we do not have two parts, the user inputted a wrong command, so handle it by telling them the command usage
                     send_message(token, room_id, "Usage: /planet <name>")
                 else:
-                    planet_name = parts[1]
+                    planet_name = parts[1]  # Gets the planet name
 
                 planet_info = get_planet_information(planet_name, planet_key)
 
