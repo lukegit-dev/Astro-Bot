@@ -192,8 +192,7 @@ Output (human-readable time): `2009-02-13 23:31:30`
 ```
 
 ## Evaluation – Web Architecture, MVC Design & Security
-Evaluating how web technologies, architecture, and design patterns
-have been applied in AstroBot.
+Evaluating how web technologies, architecture, and design patterns that have been applied in AstroBot.
 ### Web Architecture – Client–Server Model
 How the client interacts with the server through sending messages and getting responses.
 - The user (client) interacts with AstroBot through sending it commands on Webex.
@@ -206,7 +205,7 @@ A user sends a commant which is received by the server is captured by AstroBot u
 - Inputs are validated so errors are handled properly. By having specific matching patterns by using `if`, `elif`, and `else` with messages matching `/`, we can control what commands are valid and should be used. The `else` block handles any invalid commands, redirecting the user to use the `/help` command if they are stuck. If a command is correctly formatted but has wrong parameters, it should be also handled, returning an invalid command message. Example: `/planet Krypton` -> `Error fetching planet Krypton`.
 ---
 ### RESTful API Usage in Your Application
-REST, standing for REpresentational State Transfer (Gupta, L., 2019).
+REST, standing for REpresentational State Transfer. This allows programs to transfer resources between components. (Gupta, L., 2019).
 #### HTTP Method Usage
 - Using `requests.get()`, you can retrieve data from a specified url, and can pass data with it to get a response. In my program, I used Webex url with `/messages` and `/rooms` to get information about what the user sent and what room to look for those messages in. For example, in `/messages`I use `requests.get(url, headers=headers, params=params)` to get their response, attaching my authorization token and any parameters like `roomId` to retrieve the relevant response.
 - Using `requests.post()`, you can send data. I use it to post messages back to the user after retrieving relevant data based on the command they ran. For example, a user sends the command `/iss`. After retrieving and formatting data like converting the coordinates to see if it is flying over a specific city, that information is posted back to the user so they can see it visually in a more human-readable format. I use `requests.post(url, headers=headers, data=json.dumps(data))` to do this.
@@ -216,7 +215,7 @@ REST, standing for REpresentational State Transfer (Gupta, L., 2019).
 ### JSON Responses Processing
 
 #### Data Retrieval and Processing 
-- APIs return data in the format of JSON, which is processed using `.json()` so that python can read it properly. JSON has headings which can be retrieved through specifying the name of the data you wish to use.
+APIs return data in the format of JSON, which is processed using `.json()` so that python can read it properly. JSON has headings which can be retrieved through specifying the name of the data you wish to use.
 #### Example using `/weather London`
 After recieving the command, we first match if the user message starts with `/weather` to ensure it is the command we want to process. We do this using `message_text.lower().startswith("/weather")`. Next, we split the message into parts using `parts = message_text.split(maxsplit=1)` and make sure there are two parts; the `/weather` and `London`. Now we can use `London` as a query parameter to get weather information using our `OpenWeatherMap` API url. Convert any data which was a bad request gracefully to readable information, and use `weather['TITLE']` to get the information we need. Example: `weather['temperature']` returns the temperature of the weather in London.
 #### Code Example
@@ -306,9 +305,3 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
 - w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
-
-- Be prepared to explain your findings to your instructor or demo how you retrieved
-them using tools like Postman, Curl, or Python scripts.
-
----
-### Total: /40
