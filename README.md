@@ -267,9 +267,9 @@ def get_weather(city, api_key):
 ```
 
 #### Security Considerations: (2 marks)
-Failsafe implementations are put in place to prevent the bot from crashing.
-- Check response status codes, Handling invalid or unexpected API responses,
-Avoiding excessive API calls
+Checking and handling status codes is used to prevent the bot from crashing, acting as a failsafe. When a status code recieved from an API `GET` request. If the status returned is `200`, the request was successful and worked as expected (Jain, P., 2025). If there was any other status code returned, we can return information not found, or None. For example, if `/weather London` was not a success, a message of  "weather information not found" or "City was not found".
+Calling APIs can result in a rate limit if we reach a specific number of calls, so data could be cached locally for a limited time. For example, if the Astronomy Club frequently ran the command `/weather London`, the API could put us on timeout. The solution would be to cache the result once, then return the cached result every time the user calls `/weather London`. With weather for example,, it is unlikely that a forecast changes quickly, so say during 2 minutes we return the cached result, and when the timer ends, we call the OpenWeatherMap API again and repeat the process.
+
 ---
 ### MVC Design Pattern in AstroBot (3 Marks)
 
@@ -302,6 +302,7 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
 - GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
 - Gupta, L. (2019). What is REST – learn to create timeless REST APIs. Restfulapi.net. Available at: https://restfulapi.net/ [Accessed 19 Oct. 2026].
+- Jain, P. (2025). HTTP STATUS CODES: Complete list & troubleshooting guide. Bluehost Blog. Available at: https://www.bluehost.com/blog/http-status-codes/ [Accessed 20 Oct. 2026].
 - Kumar, B. (2025). Epoch time to datetime conversion in python. Python Guides. Available at: https://pythonguides.com/python-epoch-to-datetime/ [Accessed 14 Oct. 2026].
 - NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
