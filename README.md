@@ -1,12 +1,5 @@
 # 🚀 Space Bot API Investigation Sheet
 **Total Marks: 40**
-**TASK 1: Collect Required API Documentation**
-This investigation sheet helps you gather key technical information from the three
-APIs required for the Space Bot project: **Webex Messaging API**, **ISS Current
-Location API**, **Weather API** and a **Geocoding API** , plus the Python time
-module. Also furhter investigate the application of Web Architecture and MVC design
-pattern in development of the Bot
----
 ## Webex Messaging API (4 marks)
 | Criteria | Details |
 |---------|---------|
@@ -225,6 +218,7 @@ REST, standing for REpresentational State Transfer (Gupta, L., 2019).
 - `/city London` will give relevant weather data in London, such as temperature and forecast description.
 - `/planet Mars` gives planetary information about Mars, such as mass, orbital period, and radius, which are converted in terms of Earth ratio.
 ### JSON Responses Processing
+
 #### Data Retrieval and Processing 
 - APIs return data in the format of JSON, which is processed using `.json()` so that python can read it properly. JSON has headings which can be retrieved through specifying the name of the data you wish to use.
 #### Example using `/weather London`
@@ -272,18 +266,12 @@ def get_weather(city, api_key):
     }
 ```
 
-Explain how REST APIs are used in your AstroBot:
-- Describe how HTTP methods (GET, POST) are used
-- Explain how your bot interacts with APIs (Webex, Weather, ISS, Geocoding)
-- Describe how JSON responses are received and processed
-Note: Relate your explanation directly to your code for higher grade.
 #### Security Considerations: (2 marks)
+Failsafe implementations are put in place to prevent the bot from crashing.
 - Check response status codes, Handling invalid or unexpected API responses,
 Avoiding excessive API calls
 ---
 ### MVC Design Pattern in AstroBot (3 Marks)
-Explain how the **Model–View–Controller (MVC)** pattern applies to your solution:
-Provide a short example based on your implementation
 
 | Component | Description (geeksforgeeks, 2025) | Example |
 |------------|----------------------------------|------|
