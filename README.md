@@ -201,7 +201,7 @@ How the client interacts with the server through sending messages and getting re
 #### Example
 A user sends a commant which is received by the server is captured by AstroBot using a GET request with the Webex API. The user data is processed and connected to the relevant API, which is sent and retrieved. The request of the specific API is processed and formatted for the user, before being sent back to them with a POST request using the Webex API for the client to see.
 #### Security Considerations
-- Processing data could expose API keys within the log, so data is handled safely without leaving traces of sensitive information. Logging should only contain relevant information to the developer or anyone who has access without exposing sensitive information. Using `getpass()` allows API keys and tokens being pasted manually are not logged, making them invisible. Additionally, a `.env` file would store these authentication keys allowing for a faster login without exposing what the keys are in the console.
+- Processing data could expose API keys within the log, so data is handled safely without leaving traces of sensitive information. Logging should only contain relevant information to the developer or anyone who has access without exposing sensitive information. Using `getpass()` allows API keys and tokens being pasted manually are not logged, making them invisible. Additionally, a `.env` file would store these authentication keys allowing for a faster login without exposing what the keys are in the console. Authorization keys and tokens should not be included in the parameters when calling a POST or GET request, as parameters are not encrypted, so should be included in headers instead.
 - Inputs are validated so errors are handled properly. By having specific matching patterns by using `if`, `elif`, and `else` with messages matching `/`, we can control what commands are valid and should be used. The `else` block handles any invalid commands, redirecting the user to use the `/help` command if they are stuck. If a command is correctly formatted but has wrong parameters, it should be also handled, returning an invalid command message. Example: `/planet Krypton` -> `Error fetching planet Krypton`.
 ---
 ### RESTful API Usage in Your Application
@@ -263,8 +263,10 @@ def get_weather(city, api_key):
 
 #### Security Considerations
 Checking and handling status codes is used to prevent the bot from crashing, acting as a failsafe. When a status code recieved from an API `GET` request. If the status returned is `200`, the request was successful and worked as expected (Jain, P., 2025). If there was any other status code returned, we can return information not found, or None. For example, if `/weather London` was not a success, a message of  "weather information not found" or "City was not found".
+##### Rate limiting
+Without rate limiting, users can send many API requests which could lead to things such as DDoS attacks (crashing the APIs server) and brute force attacks (The Postman Team, 2026).
 
-Calling APIs can result in a rate limit if we reach a specific number of calls, so data could be cached locally for a limited time. For example, if the Astronomy Club frequently ran the command `/weather London`, the API could put us on timeout. The solution would be to cache the result once, then return the cached result every time the user calls `/weather London`. With weather for example,, it is unlikely that a forecast changes quickly, so say during 2 minutes we return the cached result, and when the timer ends, we call the OpenWeatherMap API again and repeat the process.
+To prevent this from occuring, am limit can be put on the API. A simple idea being maximum number of requests per minute a user can make. By doing this, less server load allows it to handle more user requests, and adds protection against brute force attacks by making the user wait or timeout. For the Astronomy Club, if they frequently ran the command `/weather London`, the code could cache the result once, then return the cached result every time the user calls `/weather London`, as it is unlikely that a forecast changes quickly. A 2 minute wait would be sensible cooldown before we call the OpenWeatherMap API again and repeat the process.
 
 ---
 ### MVC Design Pattern in AstroBot
@@ -297,11 +299,12 @@ This allows the Astronomy club to plan further in advance when observing the ISS
 - developer.webex.com (2026). REST API Basics. Available at: https://developer.webex.com/docs/rest-api-basics [Accessed 30 Sept. 2026]
 - GeeksforGeeks (2017). Getpass() and getuser() in python. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/python/getpass-and-getuser-in-python-password-without-echo/ [Accessed 20 Oct. 2026].
 - GeeksforGeeks (2025). MVC framework introduction.GeeksforGeeks. Available at: https://www.geeksforgeeks.org/software-engineering/mvc-framework-introduction/ [Accessed 14 Oct. 2026].
-- Gupta, L. (2019). What is REST – learn to create timeless REST APIs. Restfulapi.net. Available at: https://restfulapi.net/ [Accessed 19 Oct. 2026].
+- Gupta, L. (2019). What is REST - learn to create timeless REST APIs. Restfulapi.net. Available at: https://restfulapi.net/ [Accessed 19 Oct. 2026].
 - Jain, P. (2025). HTTP STATUS CODES: Complete list & troubleshooting guide. Bluehost Blog. Available at: https://www.bluehost.com/blog/http-status-codes/ [Accessed 20 Oct. 2026].
 - Kumar, B. (2025). Epoch time to datetime conversion in python. Python Guides. Available at: https://pythonguides.com/python-epoch-to-datetime/ [Accessed 14 Oct. 2026].
 - NASA (2018). Jupiter fact sheet. Nasa.gov. Available at: https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html [Accessed 14 Oct. 2026].
 - Open-notify.org. (2025). Open Notify API Documentation. Available at: http://open-notify.org/Open-Notify-API/ [Accessed 7 Oct. 2026].
 - openweathermap. (2026). One call API 4.0. Openweathermap.Org. https://openweathermap.org/api/one-call-4?collection=one_call_api [Accessed 30 Sept. 2026]
 - Reitz, K. (2026). Getting Started with Requests. Requests.Readthedocs.Io. https://requests.readthedocs.io/en/latest/user/quickstart/ [Accessed 25 Sept. 2026]
+- Team, T.P. (2026). What is API rate limiting? Understanding request throttling and best practices. Postman Blog. Available at: https://blog.postman.com/what-is-api-rate-limiting/ [Accessed 21 Oct. 2026].
 - w3schools. (2023). Python requests module. Www.W3schools.Com. https://www.w3schools.com/python/module_requests.asp [Accessed 25 Sept. 2026]
